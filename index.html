@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Визуализация интерференционной картины колец Ньютона</title>
+    <link href="output.css" rel="stylesheet">
+
+
+    <link type="image/png" sizes="16x16" rel="icon" href="img/icons8-sun-16.png">
+</head>
+<body class="bg-indigo-50">
+    <header class="text-center">
+        <br\>
+        <h1 class=" my-10 font-mono text-2xl font-bold text-indigo-800">
+           Визуализация интерференционной картины колец Ньютона</h1>
+    </header>
+    <div class="split left my-10 text-center ">
+        <br\>
+          <div>
+            <div><label>Длина волны(нм)</label> </div>
+            <input class="input  text-center text" type="text" id="waveLenght" value="600">
+          </div>
+          <br\>
+          <div>
+          <div><label>Показатель преломления</label> </div>
+            <input class="input  text-center text" type="text" id="koef" value="1.5">
+          </div>
+          <br\>
+          <div>
+            <div><label>Расстояние между щелями(м)</label></div> 
+            <input class="input  text-center text" type="text" id="d" value="0.0000005">
+          </div>
+          <br\>
+          <div>
+            <div><label>Расстояние до экрана(м)</label></div> 
+           
+            <input class="input  text-center text" type="text" id="L" value="1">
+          </div>
+          <br\>
+          <div class="text-center">
+            <div class="my-10 text-center">
+              <input  id="del" class="hidden btn text-center" type="button" value="Костыль" />
+            </div>
+            <div><input  id="result" class="btn" type="button" value="Результат" /></div>
+          </div>
+
+      </div>
+      <div class="split right">
+        <!-- <div class="myCanvas" id="canvas">
+            Извините, ваш браузер нет поддерживает&lt;canvas&gt; элемент.
+            <div id = "1a" class="circle"></div>
+        </div> -->
+
+         <canvas class="myCanvas" id="canvas" width= "600" height="500">
+            Извините, ваш браузер нет поддерживает&lt;canvas&gt; элемент.
+            <div id = "1a" class="circle"></div>
+        </canvas> 
+      </div>
+  
+      <footer class=" footer text-lg font-mono text-indigo-800">
+        <a style="text-align: center;" class="font-bold" href="https://t.me/Indo_evri_momint" target="_blank">Ссылка на telegram</a>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
