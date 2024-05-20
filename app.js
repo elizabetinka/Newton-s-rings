@@ -1,6 +1,3 @@
-//let canvas = document.querySelector(".myCanvas");
-
-//let ctx = canvas.getContext("2d");
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext('2d');
 let width = (canvas.width);
@@ -80,12 +77,12 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 
 resultButton.onclick = function(){
-    waveLenght1 = waveLenght_text.value*Math.pow(10,-9);
-    radius1 = radius_text.value;
-    linza1=linza_text.value;
-    plast1=plast_text.value;
-    env1=env_text.value;
-    light1=light_text.value;
+    waveLenght1 = parseFloat(waveLenght_text.value)*Math.pow(10,-9);
+    radius1 = parseFloat(radius_text.value);
+    linza1=parseFloat(linza_text.value);
+    plast1=parseFloat(plast_text.value);
+    env1=parseFloat(env_text.value);
+    light1=parseFloat(light_text.value);
     console.log( waveLenght1 ,radius1,linza1,plast1,env1,light1);
     if (radius1<=0 || linza1 <= 0 || waveLenght1<0){
         alert("Значения не могут быть неположительными!")
