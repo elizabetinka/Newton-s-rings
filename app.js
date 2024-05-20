@@ -56,6 +56,7 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
         // Домножение на константу помогает лучше видеть кольцо
         let radius2 = Math.sqrt((i - 0.5) * waveLenght * radius / env)*7500;
         
+        radius2 =Math.min(radius2,height / 2);
         
         ctx.beginPath();
         ctx.arc(width / 2, height / 2, radius2, 0, 2 * Math.PI);
