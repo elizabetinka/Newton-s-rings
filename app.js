@@ -1,14 +1,17 @@
-let canvas = document.querySelector(".myCanvas");
+//let canvas = document.querySelector(".myCanvas");
+
+//let ctx = canvas.getContext("2d");
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext('2d');
 let width = (canvas.width);
 let height = (canvas.height);
-let ctx = canvas.getContext("2d");
-ctx.fillStyle = "rgb(255,255,255)";
-ctx.fillRect(0, 0, width, height);
 
-let waveLenght = 600*Math.pow(10,-9);
-let koef = 1.5;
-let d = 0.0000005;
-let L = 1;
+let waveLenght1 = 600*Math.pow(10,-9);
+let radius1 = 1;
+let linza1 = 2;
+let plast1 = 3;
+let env1 = 1;
+let light1 = 4;
 
 
 const availableScreenWidth = window.screen.availWidth;
@@ -18,37 +21,57 @@ console.log("Длина", availableScreenHeight );
 
 
 let waveLenght_text = document.getElementById("waveLenght");
-let koef_text = document.getElementById("koef");
-let d_text = document.getElementById("d");
-let L_text = document.getElementById("L");
+let radius_text = document.getElementById("radius");
+let linza_text = document.getElementById("linza");
+let plast_text = document.getElementById("plast");
+let env_text = document.getElementById("env");
+let light_text = document.getElementById("light");
 let resultButton = document.getElementById('result');
 
-showMessage(waveLenght,koef,d,L);
+showMessage( waveLenght1 ,radius1,linza1,plast1,env1,light1);
 
-
-
-function  showMessage( waveLenght ,koef,d,L){
-    let I0=1;    
     
-    let width2=waveLenght*L/d;
-    console.log("Ширина", width2);
-    var clickX = canvas.offsetLeft - availableScreenWidth*40/100;
-  var clickY = canvas.offsetTop-114;
-  console.log(canvas.offsetLeft);
-  console.log(canvas.offsetTop);
-  console.log(clickX);
-  console.log(clickY);
 
-
-  for (let x =height/2; x>-height/2; x -=1.5555){
-    let I = 4 * I0 * Math.cos(Math.PI * koef * d * x / (waveLenght * L)) * Math.cos(Math.PI * koef * d * x / (waveLenght * L));
-    console.log("I: ",I );
-    let color=(I/4*255)%256;
-    ctx.fillStyle = `rgb(${color}, ${color}, ${color})`;
-    console.log("color: ",color );
-    ctx.fillRect(0,height/2-x, width, height/2-x+1.5555);
+function I(r,waveLenght ,radius,linza,plast,env,light){
+    let R = ((plast-env)/(plast+env))*((plast-env)/(plast+env));
+    let T = 4*linza*env/ ((linza+env)*(linza+env));
+    let Delta = r * r / radius * env + waveLenght / 2;
+    return  light*T*T*R + light*R + 2*light*R*T*Math.cos(2 * Math.PI / waveLenght * Delta)
 }
 
+function  showMessage( waveLenght ,radius,linza,plast,env,light){
+    console.log(waveLenght ,radius,linza,plast,env,light);
+    
+
+    var mass_x = [];
+    var mass_y = [];
+
+
+    for (let i = 0; i < 0.001; i += 0.000001) {
+        mass_x.push(i);
+        mass_y.push(I(i,waveLenght ,radius,linza,plast,env,light));
+    }
+    ctx.fillStyle = '#ffffff'; // белый цвет
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < mass_y.length; i++){
+        let currentColor = 255 * mass_y[i] / light;
+        let color=`rgba(${currentColor},${currentColor},${currentColor}, 1)`;
+        // Домножение на константу помогает лучше видеть кольцо
+        let radius2 = Math.sqrt((i - 0.5) * waveLenght * radius / env)*7500;
+        
+        
+        ctx.beginPath();
+        ctx.arc(width / 2, height / 2, radius2, 0, 2 * Math.PI);
+        ctx.strokeStyle = color;
+    
+        ctx.stroke();
+    }
+    
+
+
+
+
+ 
   
 }
 
@@ -57,20 +80,26 @@ function  showMessage( waveLenght ,koef,d,L){
 
 
 resultButton.onclick = function(){
-    waveLenght = waveLenght_text.value*Math.pow(10,-9);
-    L = L_text.value;
-    d=d_text.value;
-    koef=koef_text.value;
-
-    if (L<=0 || d <= 0 || waveLenght<0){
+    waveLenght1 = waveLenght_text.value*Math.pow(10,-9);
+    radius1 = radius_text.value;
+    linza1=linza_text.value;
+    plast1=plast_text.value;
+    env1=env_text.value;
+    light1=light_text.value;
+    console.log( waveLenght1 ,radius1,linza1,plast1,env1,light1);
+    if (radius1<=0 || linza1 <= 0 || waveLenght1<0){
         alert("Значения не могут быть неположительными!")
     }
-    else if (d>=L){
-        alert("d >> L")
+
+    if ( plast1 < 1 || env1 < 1 || light1<1){
+        alert("оказатели преломления должны быть >= 1")
     }
    
     else{
-        showMessage(waveLenght,koef,d,L);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#ffffff'; // белый цвет
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+        showMessage( waveLenght1 ,radius1,linza1,plast1,env1,light1);
     }
 
     
